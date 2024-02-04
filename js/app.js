@@ -1,9 +1,20 @@
 function determinePercentileFromLotteryNumber(event) {
-  // TODO: Check input
-  const firstByte = parseInt(document.getElementById("myschools-lottery-number").value.slice(0, 2), 16);
-  const percentile = ((firstByte + 1) / 256) * 100;
-  output.textContent = `${percentile.toFixed(2)}% of parents have a better score.`;
   event.preventDefault();
+
+  const input = document.getElementById("myschools-lottery-number").value;
+  if (!/^[-a-f0-9]{2,32}/i.test(input)) {
+    output.textContent = "Not a valid lottery number.";
+    return;
+  }
+  const firstByte = parseInt(input.slice(0, 2), 16);
+
+  if (isNaN(firstByte)) {
+    output.textContent = "Not a valid lottery number.";
+    return;
+  }
+
+  const percentile = (((firstByte + 1) / 256) * 100).toFixed(2);
+  output.textContent = `${percentile}% of parents have a better score.`;
 }
 
 const form = document.getElementById("decoder-form");
